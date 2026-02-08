@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Case File</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Pacifico&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #ffb6c1, #ff4d6d);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #4a0026;
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+.page.active { display: block; }
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+}
+h2 {
+    font-family: 'Pacifico', cursive;
+    margin-top: 25px;
+}
+
+.confidential {
+    border: 2px dashed #fff;
+    display: inline-block;
+    padding: 6px 18px;
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.hearts::before {
+    content: "❤️ 💗 💕 💖 💘";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    opacity: 0.7;
+}
+
+.extra-hearts {
+    font-size: 2.6rem;
+    animation: float 5s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-20px);}
+    100% {transform: translateY(0);}
+}
+
+.box {
+    background: rgba(255,255,255,0.88);
+    padding: 25px;
+    border-radius: 18px;
+    max-width: 620px;
+    margin: 20px auto;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+.btn {
+    margin-top: 25px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4d6d;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn:hover { background: #d63357; transform: scale(1.05); }
+.btn-alt { background: #555; }
+
+ul { list-style: none; padding: 0; }
+ul li { margin: 12px 0; font-size: 1.1rem; }
+
+.confetti {
+    font-size: 3rem;
+    animation: pop 1s ease-out;
+}
+@keyframes pop {
+    0% {transform: scale(0);}
+    100% {transform: scale(1);}
+}
+
+#nameReveal {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.2rem;
+    color: #ff2f68;
+    opacity: 0;
+    animation: reveal 3s forwards;
+}
+@keyframes reveal {
+    from {opacity: 0; letter-spacing: 12px;}
+    to {opacity: 1; letter-spacing: 2px;}
+}
+
+/* Rose petals */
+.petal {
+    position: fixed;
+    top: -10%;
+    z-index: 1;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(120vh) rotate(360deg); opacity: 0.3; }
+}
+
+footer {
+    margin-top: 50px;
+    font-weight: bold;
+    color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<div id="petals"></div>
+
+<!-- AUDIO (iOS SAFE – NO AUTOPLAY) -->
+<audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01a.mp3" loop></audio>
+<audio id="clickSound" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
+<audio id="errorSound" src="https://www.soundjay.com/buttons/button-10.mp3"></audio>
+<audio id="celebrateSound" src="https://www.soundjay.com/misc/confetti-pop-01.mp3"></audio>
+
+<!-- PAGE 1 -->
+<div class="page active hearts" id="page1">
+    <h1>Patient Case File</h1>
+    <div class="confidential">CONFIDENTIAL</div>
+    <div class="box">
+        <h2>Patient</h2>
+        <p>One very lucky boyfriend</p>
+
+        <h2>Attending Physician</h2>
+        <p>Sathya Lakshmi MG 🩺</p>
+
+        <button class="btn" onclick="startCase()">Open Case</button>
+    </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page hearts" id="page2">
+    <h1>CHIEF COMPLAINTS</h1>
+    <div class="box">
+        <p>Persistent feeling of warmth in heart when thinking about one beautiful, pretty, amazing, kind, lovely, cute, responsible, future doctor.</p>
+        <button class="btn" onclick="go(3)">View Symptoms</button>
+    </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page hearts" id="page3">
+    <h1>SYMPTOMS</h1>
+    <div class="box">
+        <ul>
+            <li>Smiling for no reason</li>
+            <li>Feeling calm by just hearing her voice</li>
+            <li>Unavoidable desire to spend the rest of my life with her</li>
+            <li>Not wanting to take eyes off her</li>
+        </ul>
+        <button class="btn" onclick="go(4)">Assessment</button>
+    </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page hearts" id="page4">
+    <div class="extra-hearts">💗 💕 💖 💘</div>
+    <h1>ASSESSMENT</h1>
+    <div class="box">
+        <p><strong>Condition appears chronic and irreversible</strong></p>
+        <p>Patient reports feeling safe, supported, loved, and genuinely happy in your presence.</p>
+        <button class="btn" onclick="go(5)">Final Recommendation</button>
+    </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page hearts" id="page5">
+    <h1>FINAL RECOMMENDATION</h1>
+    <p><em>High priority</em></p>
+    <div class="box">
+        <p>Proceed with Valentine’s Day together. Laugh a lot, eat something good with the patient.</p>
+        <p><strong>Will you be patient’s Valentine?</strong></p>
+        <button class="btn" onclick="accept()">Yes 💌</button>
+        <button class="btn btn-alt" onclick="reject()">Reject ❌</button>
+    </div>
+</div>
+
+<!-- PAGE 6 -->
+<div class="page hearts" id="page6">
+    <h1>ERROR 404: Option Not Found</h1>
+    <p><em>Action forbidden</em></p>
+    <div class="box">
+        <p>Your medical licence doesn’t allow rejection of this patient.</p>
+        <p><strong>Look how sad he will be</strong></p>
+        <img src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif" width="180">
+        <img src="https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif" width="180">
+        <p>Please reconsider your line of treatment</p>
+        <button class="btn" onclick="accept()">ACCEPT</button>
+    </div>
+</div>
+
+<!-- PAGE 7 -->
+<div class="page hearts" id="page7">
+    <div class="confetti">🎉 🎊 💖 🎊 🎉</div>
+    <h1>Case Closed</h1>
+    <div class="box">
+        <p>Recommendation accepted</p>
+        <p>Prognosis is extremely good</p>
+        <p>Good job, doctor</p>
+        <p><strong>Patient name revealed:</strong></p>
+        <div id="nameReveal">❤️ Your Forever Person ❤️</div>
+        <p><strong>Look how happy he is</strong></p>
+        <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="220">
+    </div>
+    <footer>HAPPY VALENTINE’S DAY MY CUPCAKE 🧁</footer>
+</div>
+
+<script>
+const heartbeat = document.getElementById("heartbeat");
+const clickSound = document.getElementById("clickSound");
+const errorSound = document.getElementById("errorSound");
+const celebrateSound = document.getElementById("celebrateSound");
+
+let audioStarted = false;
+
+/* OPTIONAL AUDIO START (iOS SAFE) */
+function startCase() {
+    heartbeat.play();
+    audioStarted = true;
+    go(2);
+}
+
+function go(n) {
+    if (audioStarted) clickSound.play();
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page' + n).classList.add('active');
+    window.scrollTo(0,0);
+}
+
+function reject() {
+    if (audioStarted) errorSound.play();
+    go(6);
+}
+
+function accept() {
+    if (audioStarted) celebrateSound.play();
+    go(7);
+    finalPetals();
+}
+
+/* Rose petals */
+function createPetal(extra=false) {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+    petal.innerHTML = "🌹";
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.fontSize = (extra ? 32 : 18) + Math.random() * 10 + "px";
+    petal.style.animationDuration = (extra ? 4 : 7) + Math.random() * 3 + "s";
+    document.body.appendChild(petal);
+    setTimeout(() => petal.remove(), 10000);
+}
+
+setInterval(() => createPetal(false), 700);
+
+function finalPetals() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => createPetal(true), i * 200);
+
+}
+}
+</script>
+
+</body>
+</html>
